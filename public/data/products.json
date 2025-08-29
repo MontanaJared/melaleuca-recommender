@@ -1,0 +1,193 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "EcoSense 9x Laundry Detergent (Sensitive)",
+      "category": "Home Care",
+      "price": 23.99,
+      "rating": 4.7,
+      "tags": ["laundry", "fragrance-free", "sensitive", "concentrated", "eco"],
+      "description": "Ultra-concentrated, fragrance-free detergent designed for sensitive skin. Powerful clean with fewer chemicals."
+    },
+    {
+      "id": 2,
+      "name": "EcoSense 9x Laundry Detergent (Fresh Scent)",
+      "category": "Home Care",
+      "price": 22.99,
+      "rating": 4.6,
+      "tags": ["laundry", "fresh", "concentrated", "eco"],
+      "description": "High-performance concentrated formula with a light fresh scent. Removes tough stains while being gentle on fabrics."
+    },
+    {
+      "id": 3,
+      "name": "SustainaClean All-Purpose Cleaner",
+      "category": "Home Care",
+      "price": 12.99,
+      "rating": 4.5,
+      "tags": ["surface", "kitchen", "bath", "plant-based", "eco"],
+      "description": "Versatile, plant-based cleaner for kitchens and baths. Streak-free shine on most hard surfaces."
+    },
+    {
+      "id": 4,
+      "name": "Sol-U-Mel Stain Remover",
+      "category": "Home Care",
+      "price": 14.99,
+      "rating": 4.8,
+      "tags": ["stain", "spot", "laundry", "carpet"],
+      "description": "Concentrated stain remover for laundry, carpets, and hard surfaces. Tackles grease, gum, and sticky residues."
+    },
+    {
+      "id": 5,
+      "name": "Clear Defense Foaming Hand Soap (Fragrance-Free)",
+      "category": "Personal Care",
+      "price": 6.99,
+      "rating": 4.6,
+      "tags": ["hand soap", "fragrance-free", "sensitive"],
+      "description": "Gentle foaming hand soap without added fragrance. Ideal for sensitive skin and frequent washing."
+    },
+    {
+      "id": 6,
+      "name": "Renew Intensive Skin Therapy Lotion",
+      "category": "Personal Care",
+      "price": 12.49,
+      "rating": 4.9,
+      "tags": ["lotion", "dry skin", "hydrating", "sensitive"],
+      "description": "Deeply moisturizing lotion that helps relieve severely dry skin."
+    },
+    {
+      "id": 7,
+      "name": "Sei Bella Renewing Night Cream",
+      "category": "Skincare",
+      "price": 34.99,
+      "rating": 4.4,
+      "tags": ["skincare", "night", "hydrating"],
+      "description": "Rich night cream that nourishes and supports skin renewal while you sleep."
+    },
+    {
+      "id": 8,
+      "name": "Sei Bella Vitamin C Brightening Serum",
+      "category": "Skincare",
+      "price": 29.99,
+      "rating": 4.5,
+      "tags": ["skincare", "serum", "vitamin c", "brightening"],
+      "description": "Potent Vitamin C serum to visibly brighten and even skin tone."
+    },
+    {
+      "id": 9,
+      "name": "Vitality Multivitamin (Men)",
+      "category": "Nutrition",
+      "price": 19.99,
+      "rating": 4.3,
+      "tags": ["vitamins", "men", "daily"],
+      "description": "Daily multivitamin formulated to support men's overall health and energy."
+    },
+    {
+      "id": 10,
+      "name": "Vitality Multivitamin (Women)",
+      "category": "Nutrition",
+      "price": 19.99,
+      "rating": 4.4,
+      "tags": ["vitamins", "women", "daily"],
+      "description": "Daily multivitamin tailored for women's wellness needs."
+    },
+    {
+      "id": 11,
+      "name": "FiberWise Drink (Citrus)",
+      "category": "Nutrition",
+      "price": 21.99,
+      "rating": 4.2,
+      "tags": ["fiber", "digestive", "citrus"],
+      "description": "Fiber supplement drink to support digestive health with a refreshing citrus flavor."
+    },
+    {
+      "id": 12,
+      "name": "Activated B Complex",
+      "category": "Nutrition",
+      "price": 17.99,
+      "rating": 4.6,
+      "tags": ["vitamins", "energy", "metabolism"],
+      "description": "B vitamins in activated forms to support energy and metabolism."
+    },
+    {
+      "id": 13,
+      "name": "Omega-3 Fish Oil",
+      "category": "Nutrition",
+      "price": 24.99,
+      "rating": 4.7,
+      "tags": ["omega-3", "heart", "wellness"],
+      "description": "High-quality omega-3 fatty acids for heart and brain health."
+    },
+    {
+      "id": 14,
+      "name": "Probiotic Complex",
+      "category": "Nutrition",
+      "price": 22.49,
+      "rating": 4.4,
+      "tags": ["probiotic", "digestive", "wellness"],
+      "description": "Multi-strain probiotic to support a healthy gut microbiome."
+    },
+    {
+      "id": 15,
+      "name": "GC Control Shake (Chocolate)",
+      "category": "Nutrition",
+      "price": 32.99,
+      "rating": 4.1,
+      "tags": ["shake", "chocolate", "energy"],
+      "description": "Delicious chocolate shake designed to help satisfy hunger and support healthy choices."
+    },
+    {
+      "id": 16,
+      "name": "Peak Performance Pack",
+      "category": "Nutrition",
+      "price": 49.99,
+      "rating": 4.6,
+      "tags": ["wellness", "performance", "daily pack"],
+      "description": "Comprehensive daily nutrition pack for overall performance and wellness."
+    },
+    {
+      "id": 17,
+      "name": "Whitening Toothpaste",
+      "category": "Personal Care",
+      "price": 6.49,
+      "rating": 4.3,
+      "tags": ["toothpaste", "whitening", "fresh"],
+      "description": "Gentle whitening toothpaste with a fresh, clean finish."
+    },
+    {
+      "id": 18,
+      "name": "Kids Multivitamin Gummies",
+      "category": "Nutrition",
+      "price": 16.99,
+      "rating": 4.5,
+      "tags": ["kids", "vitamins", "gummies"],
+      "description": "Tasty gummies with essential vitamins for growing kids."
+    },
+    {
+      "id": 19,
+      "name": "Clarifying Shampoo",
+      "category": "Personal Care",
+      "price": 9.99,
+      "rating": 4.1,
+      "tags": ["shampoo", "clarifying", "hair"],
+      "description": "Clarifying shampoo to remove buildup and leave hair refreshed."
+    },
+    {
+      "id": 20,
+      "name": "Nourishing Conditioner",
+      "category": "Personal Care",
+      "price": 9.99,
+      "rating": 4.2,
+      "tags": ["conditioner", "hydrating", "hair"],
+      "description": "Conditioner that helps restore moisture and softness to hair."
+    },
+    {
+      "id": 21,
+      "name": "DiamondBrite Dishwashing Liquid (Lemon)",
+      "category": "Home Care",
+      "price": 8.49,
+      "rating": 4.4,
+      "tags": ["dish", "lemon", "grease", "eco"],
+      "description": "Grease-cutting dishwashing liquid with a fresh lemon scent."
+    }
+  ]
+}
