@@ -3,6 +3,17 @@
 import { RealtimeAgent, RealtimeSession, tool } from 'https://esm.sh/@openai/agents-realtime@0.1.0';
 import { z } from 'https://esm.sh/zod@3.25.40';
 
+function setSearchStatus(content, cls = '') {
+  const el = els.searchStatus;
+  if (!el) return;
+  el.className = `search-status ${cls}`.trim();
+  el.innerHTML = content || '';
+}
+
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
 const els = {
   status: document.getElementById('status'),
   connectBtn: document.getElementById('connectBtn'),
@@ -12,6 +23,7 @@ const els = {
   sendBtn: document.getElementById('sendBtn'),
   history: document.getElementById('history'),
   recommendations: document.getElementById('recommendations'),
+  searchStatus: document.getElementById('searchStatus'),
 };
 
 let cachedProducts = null;
@@ -26,7 +38,7 @@ async function loadProducts() {
 }
 
 // Live search via server scrape endpoint with simple client-side cache
-const liveCache = new Map(); // key: JSON.stringify({query,category,max_price,limit}) -> items
+const liveCache = new Map(); // key -> { items, meta }
 async function searchLive({ query, category, max_price, limit }) {
   const key = JSON.stringify({ query: query || '', category: category || '', max_price: max_price ?? '', limit: limit || 3 });
   if (liveCache.has(key)) return liveCache.get(key);
@@ -35,12 +47,15 @@ async function searchLive({ query, category, max_price, limit }) {
   if (category) params.set('category', category);
   if (typeof max_price === 'number') params.set('max_price', String(max_price));
   if (limit) params.set('limit', String(limit));
+  setSearchStatus(`Searching <strong>melaleuca.com</strong> for “${esc(query || '')}”…`, 'loading');
   const res = await fetch(`/api/products/search?${params.toString()}`);
   if (!res.ok) throw new Error(`Search API failed: ${res.status}`);
   const json = await res.json();
   const items = Array.isArray(json.items) ? json.items : [];
-  liveCache.set(key, items);
-  return items;
+  const meta = { source: json.source, url: json.url, cached: !!json.cached, site: json.site, query: json.query };
+  const payload = { items, meta };
+  liveCache.set(key, payload);
+  return payload;
 }
 
 function renderHistory(historyItems) {
@@ -60,13 +75,14 @@ function renderRecommendations(items) {
   for (const p of items) {
     const card = document.createElement('div');
     card.className = 'card';
+    const title = p.url ? `<a href="${p.url}" target="_blank" rel="noopener">${esc(p.name)}</a>` : esc(p.name);
     card.innerHTML = `
       <div class="card-body">
-        <div class="title">${p.name}</div>
-        <div class="meta">${p.category} • Rating ${p.rating?.toFixed?.(1) ?? p.rating ?? 'N/A'}</div>
-        <div class="price">$${p.price.toFixed(2)}</div>
-        <div class="desc">${p.description || ''}</div>
-        ${p.tags?.length ? `<div class="tags">${p.tags.map(t => `<span>${t}</span>`).join('')}</div>` : ''}
+        <div class="title">${title}</div>
+        <div class="meta">${esc(p.category || '')} • Rating ${p.rating?.toFixed?.(1) ?? p.rating ?? 'N/A'}</div>
+        <div class="price">$${(typeof p.price === 'number' && Number.isFinite(p.price)) ? p.price.toFixed(2) : 'N/A'}</div>
+        <div class="desc">${esc(p.description || '')}</div>
+        ${p.tags?.length ? `<div class="tags">${p.tags.map(t => `<span>${esc(t)}</span>`).join('')}</div>` : ''}
       </div>
     `;
     els.recommendations.appendChild(card);
@@ -120,11 +136,15 @@ const searchProducts = tool({
   }),
   async execute({ query, category, max_price, limit }) {
     let items = [];
+    let meta = null;
     // 1) Try live scrape via server
     try {
-      items = await searchLive({ query, category, max_price, limit });
+      const res = await searchLive({ query, category, max_price, limit });
+      items = res.items;
+      meta = res.meta;
     } catch (e) {
       console.warn('Live search failed:', e);
+      setSearchStatus(`Error searching melaleuca.com: ${esc(e.message || e)}`, 'error');
     }
     // 2) If no live items, fall back to local JSON
     if (!Array.isArray(items) || items.length === 0) {
@@ -137,6 +157,7 @@ const searchProducts = tool({
         .sort((a, b) => b.s - a.s)
         .map(x => x.p)
         .slice(0, limit);
+      meta = { source: 'local', url: '', cached: false, site: 'local' };
     } else {
       // Optionally rescore remote items to better match user intent
       items = items
@@ -149,12 +170,25 @@ const searchProducts = tool({
     // Update UI immediately
     try { window.renderRecommendations(items); } catch { /* noop */ }
 
+    // Update status line with final source and link
+    if (meta && meta.source === 'web') {
+      const cachedTxt = meta.cached ? ' (cached)' : '';
+      const link = meta.url ? ` • <a href="${meta.url}" target="_blank" rel="noopener">View on melaleuca.com</a>` : '';
+      setSearchStatus(`Showing ${items.length} result(s) from <strong>melaleuca.com</strong>${cachedTxt}${link}`, 'ok');
+    } else if (meta && meta.source === 'local') {
+      setSearchStatus(`Showing ${items.length} local fallback result(s).`, 'warn');
+    } else {
+      setSearchStatus(items.length ? `Showing ${items.length} result(s).` : 'No results found.', items.length ? 'ok' : 'warn');
+    }
+
     // Return structured data for the agent
     const fmtPrice = (v) => (typeof v === 'number' && Number.isFinite(v)) ? `$${v.toFixed(2)}` : 'N/A';
     return {
       items,
       summary: items.map(r => `${r.name} (${fmtPrice(r.price)}) - ${r.category || ''}`).join('; '),
       count: items.length,
+      source: meta?.source || 'unknown',
+      url: meta?.url || '',
     };
   },
 });
