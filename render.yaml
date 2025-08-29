@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: melaleuca-recommender
+    env: node
+    plan: free
+    rootDir: .
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SCRAPE_HTTP_TIMEOUT_MS
+        value: "6000"
+      - key: SCRAPE_MAX_TIME_MS
+        value: "12000"
+      - key: SCRAPE_CACHE_TTL_MS
+        value: "900000"
+      # Optional; set to 1 to disable remote scraping
+      - key: SCRAPE_DISABLED
+        value: "0"
+      # Optional; only needed for /session OpenAI feature
+      - key: OPENAI_API_KEY
+        sync: false
